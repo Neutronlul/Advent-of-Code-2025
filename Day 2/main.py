@@ -25,10 +25,19 @@ def parse_input() -> list[dict[str, int]]:
         )
 
 
+def find_invalid_ids_naive(ranges):
+    invalid_ids = []
+    for range in ranges:
+        for id in range(range["min"], range["max"]):
+            for first_half, second_half in id.split(1):
+                if :
+                    invalid_ids.append(id)
+
+
 def main():
     ranges = parse_input()
-
-    print(ranges)
+    
+    print(sum(find_invalid_ids_naive(ranges)))
 
 
 if __name__ == "__main__":
