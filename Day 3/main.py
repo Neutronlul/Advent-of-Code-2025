@@ -32,7 +32,31 @@ def find_largest_joltage_part_1(banks: list[str]) -> int:
 
 
 def find_largest_joltage_part_2(banks: list[str]) -> int:
-    pass
+    total_joltage = 0
+    for bank in banks:
+        max_joltage = ""
+        start_index = 0
+        for x in range(12):
+            largest_battery = 0
+            battery_index = 0
+
+            for battery in bank[start_index : len(bank) - (12 - (x + 1))]:
+                joltage = int(battery)
+                if joltage > largest_battery:
+                    largest_battery = joltage
+                    battery_index = bank.index(battery, start_index)
+
+                    if largest_battery == 9:
+                        break
+
+            max_joltage += str(largest_battery)
+            start_index = battery_index + 1
+
+            # print(f"selected battery: {largest_battery} at position {start_index}")
+
+        total_joltage += int(max_joltage)
+
+    return total_joltage
 
 
 def main():
