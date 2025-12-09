@@ -1,5 +1,5 @@
-def parse_input() -> list[list[dict[str, int | bool]]]:
-    with open("Day 4/input.txt") as file:
+def parse_input(input_file: str) -> list[list[dict[str, int | bool]]]:
+    with open(input_file) as file:
         return [
             [{"is_full": char == "@", "neighbor_count": 0} for char in line]
             for line in file.read().splitlines()
@@ -63,7 +63,7 @@ def get_accessible_rolls_recursive(grid: list[list[dict[str, int | bool]]]) -> i
         if accessible_rolls == 0:
             break
         else:
-            print(f"Pass {pass_num} found {accessible_rolls} accessible rolls.")
+            print(f"Pass {pass_num} found {accessible_rolls} accessible roll(s).")
             pass_num += 1
 
             total_accessible_rolls += accessible_rolls
@@ -72,11 +72,19 @@ def get_accessible_rolls_recursive(grid: list[list[dict[str, int | bool]]]) -> i
 
 
 def main():
-    data = parse_input()
+    test_data = parse_input("Day 4/sample.txt")
+
+    assert get_accessible_rolls(test_data) == 13
+
+    test_data = parse_input("Day 4/sample.txt")
+
+    assert get_accessible_rolls_recursive(test_data) == 43
+
+    data = parse_input("Day 4/input.txt")
 
     print(f"Number of accessible rolls: {get_accessible_rolls(data)}\n")
 
-    data = parse_input()
+    data = parse_input("Day 4/input.txt")
 
     print(
         f"Total number of accessible rolls (recursive): {get_accessible_rolls_recursive(data)}"

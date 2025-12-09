@@ -1,7 +1,7 @@
-def part1(initial_settings):
+def part1(initial_settings, input_file):
     dial = initial_settings["dial"]
     zeros = initial_settings["zeros"]
-    with open("Day 1/input.txt") as file:
+    with open(input_file) as file:
         for line in file:
             direction = line[0]
             clicks = int(line.lstrip("RL"))
@@ -14,13 +14,13 @@ def part1(initial_settings):
             if dial == 0:
                 zeros += 1
 
-    print(f"Part 1: {zeros}")
+    return zeros
 
 
-def part2(initial_settings):
+def part2(initial_settings, input_file):
     dial = initial_settings["dial"]
     zeros = initial_settings["zeros"]
-    with open("Day 1/input.txt") as file:
+    with open(input_file) as file:
         for line in file:
             direction = line[0]
             clicks = int(line.lstrip("RL"))
@@ -39,15 +39,18 @@ def part2(initial_settings):
 
             dial = final_position
 
-    print(f"Part 2: {zeros}")
+    return zeros
 
 
 def main():
     initial_settings = {"dial": 50, "zeros": 0}
 
-    part1(initial_settings)
+    assert part1(initial_settings, "Day 1/sample.txt") == 3
+    assert part2(initial_settings, "Day 1/sample.txt") == 6
 
-    part2(initial_settings)
+    print(f"Part 1: {part1(initial_settings, 'Day 1/input.txt')}")
+
+    print(f"Part 2: {part2(initial_settings, 'Day 1/input.txt')}")
 
 
 if __name__ == "__main__":

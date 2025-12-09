@@ -15,7 +15,7 @@ def timeit(fn):
 
 
 @timeit
-def parse_input() -> list[dict[str, str]]:
+def parse_input(input_file: str) -> list[dict[str, str]]:
     """
     Parse the input file and return a sorted list of range dictionaries.
 
@@ -31,7 +31,7 @@ def parse_input() -> list[dict[str, str]]:
         If input.txt contains "1-3,11-17,5-9", the function returns:
         [{'min': '1', 'max': '3'}, {'min': '5', 'max': '9'}, {'min': '11', 'max': '17'}]
     """
-    with open("Day 2/input.txt") as file:
+    with open(input_file) as file:
         return sorted(
             [
                 {"min": min, "max": max}
@@ -115,6 +115,7 @@ def find_invalid_ids(ranges) -> list[int]:
 
 
 def partition_ranges(ranges) -> list[dict[str, str]]:
+    partitioned_ranges = []
     for id_range in ranges:
         min_digits = len(id_range["min"])
         max_digits = len(id_range["max"])
@@ -128,16 +129,16 @@ def partition_ranges(ranges) -> list[dict[str, str]]:
                 "min": "1" + "0" * (max_digits - 1),
                 "max": id_range["max"],
             }
-            ranges.remove(id_range)
-            ranges.append(first_range)
-            ranges.append(second_range)
+            partitioned_ranges.append(first_range)
+            partitioned_ranges.append(second_range)
         elif min_digits != max_digits and max_digits - min_digits > 1:
             raise ValueError(
                 f"Range {id_range} has more than one digit difference between min and max"
             )
-
+        else:
+            partitioned_ranges.append(id_range)
     return sorted(
-        ranges,
+        partitioned_ranges,
         key=lambda x: int(x["min"]),
     )
 
@@ -183,7 +184,21 @@ def find_invalid_ids_naive_2(ranges) -> list[int]:
 
 
 def main():
-    ranges = parse_input()
+    test_ranges = parse_input("Day 2/sample.txt")
+
+    test_ranges_copy = [r.copy() for r in test_ranges]
+
+    assert sum(find_invalid_ids_naive(test_ranges_copy)) == 1227775554
+
+    test_ranges_copy = [r.copy() for r in test_ranges]
+
+    assert sum(find_invalid_ids(test_ranges_copy)) == 1227775554
+
+    test_ranges_copy = [r.copy() for r in test_ranges]
+
+    assert sum(find_invalid_ids_naive_2(test_ranges_copy)) == 4174379265
+
+    ranges = parse_input("Day 2/input.txt")
 
     print("Part 1:")
 

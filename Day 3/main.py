@@ -1,5 +1,5 @@
-def parse_input() -> list[str]:
-    with open("Day 3/input.txt") as file:
+def parse_input(input_file: str) -> list[str]:
+    with open(input_file) as file:
         return file.read().splitlines()
 
 
@@ -31,16 +31,16 @@ def find_largest_joltage_part_1(banks: list[str]) -> int:
     return total_joltage
 
 
-def find_largest_joltage_part_2(banks: list[str]) -> int:
+def find_largest_joltage_part_2(banks: list[str], battery_count: int) -> int:
     total_joltage = 0
     for bank in banks:
         max_joltage = ""
         start_index = 0
-        for x in range(12):
+        for x in range(battery_count):
             largest_battery = 0
             battery_index = 0
 
-            for battery in bank[start_index : len(bank) - (12 - (x + 1))]:
+            for battery in bank[start_index : len(bank) - (battery_count - (x + 1))]:
                 joltage = int(battery)
                 if joltage > largest_battery:
                     largest_battery = joltage
@@ -60,11 +60,16 @@ def find_largest_joltage_part_2(banks: list[str]) -> int:
 
 
 def main():
-    data = parse_input()
+    test_data = parse_input("Day 3/sample.txt")
+
+    assert find_largest_joltage_part_2(test_data, 2) == 357
+    assert find_largest_joltage_part_2(test_data, 12) == 3121910778619
+
+    data = parse_input("Day 3/input.txt")
 
     print(f"Total output joltage (Part 1): {find_largest_joltage_part_1(data)}")
 
-    print(f"Total output joltage (Part 2): {find_largest_joltage_part_2(data)}")
+    print(f"Total output joltage (Part 2): {find_largest_joltage_part_2(data, 12)}")
 
 
 if __name__ == "__main__":
